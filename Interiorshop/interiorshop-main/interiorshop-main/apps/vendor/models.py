@@ -4,11 +4,12 @@ from django.db import models
 
 class Vendor(models.Model):
     name = models.CharField(max_length=255)
-    email=models.EmailField(null=False)
-    Password1=models.CharField(max_length=255 ,default=1)
-    Password2=models.CharField(max_length=255,default=1)
+    email = models.EmailField(unique=True, default='null')
+    password = models.CharField(max_length=15)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.OneToOneField(User, related_name='vendor', on_delete=models.CASCADE)
+
+    USERNAME_FIELD = 'name'
 
     class Meta:
         ordering = ['name']
