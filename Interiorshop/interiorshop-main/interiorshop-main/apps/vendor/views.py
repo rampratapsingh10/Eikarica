@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from .models import Vendor
 from apps.product.models import Product, ProductImage
+from django.contrib.auth.models import User
 
 from .forms import ProductForm, ProductImageForm
 
@@ -28,7 +29,7 @@ def user_login(request):
                 login(request,user)
                 # Send the user back to some page.
                 # In this case their homepage.
-                return redirect('frontpage')
+                return redirect('vendor_admin')
                 #return HttpResponseRedirect(reverse('core/frontpage.html'))
             else:
                 # If account is not active:
@@ -43,25 +44,21 @@ def user_login(request):
         return render(request, 'vendor/login.html', {})
 
 def become_vendor(request):
-    username = request.POST.get('username')
-    email=request.POST.get('email')
-    password1 = request.POST.get('password1')
-    password2 = request.POST.get('password2')
-    # if request.method == 'POST':
-    #     form = UserCreationForm(request.POST)
-
-    #     if form.is_valid():
-    #         user = form.save()
-
-    #         login(request, user)
-
-    #         vendor = Vendor.objects.create(name=user.username, created_by=user)
-
-    #         return redirect('frontpage')
-    # else:
-    #     form = UserCreationForm()
-
-    # return render(request, 'vendor/become_vendor.html', {'form': form})
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password1 = request.POST.get('password')
+        password2 = request.POST.get('confirm_password')
+        name = request.POST.get('username')
+        if password1 == password2:
+            raw_password = password1
+            user = User.objects.create_user(name, email, raw_password)
+            vendor = Vendor(name=name, email=email, password=raw_password, created_by=user)
+            vendor.save()
+            login(request, user)
+            return redirect('add_product')
+        else:
+            return redirect('become_vendor')
+    return render(request, 'vendor/become_vendor.html', {})
 
 @login_required
 def vendor_admin(request):
