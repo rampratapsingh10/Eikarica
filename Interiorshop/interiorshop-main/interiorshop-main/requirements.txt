@@ -1,0 +1,14 @@
+asgiref==3.3.4
+certifi==2021.5.30
+chardet==4.0.0
+Django==3.0.14
+django-jsonfield==1.4.1
+django-stripe-payments==2.0.0
+idna==2.10
+Pillow==8.2.0
+pytz==2021.1
+requests==2.25.1
+six==1.16.0
+sqlparse==0.4.1
+stripe==2.58.0
+urllib3==1.26.5
