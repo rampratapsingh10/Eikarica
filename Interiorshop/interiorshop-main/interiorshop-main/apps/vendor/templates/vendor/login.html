@@ -1,74 +1,124 @@
-{% extends 'core/base.html' %}
+<!-- {% extends 'core/base.html' %} -->
 
 {% block title %}Log in | {% endblock %}
 
-{% block content %}
+{% load static %}
+
+<!-- {% block content %} -->
     <!-- <h1 class="title">Log in</h1>
 
     <form method="post" action="."> -->
         <!-- {% csrf_token %} -->
 
 <!DOCTYPE html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
-    <title>Login / Sign Up Form</title>
-    <link rel="shortcut icon" href="/assets/favicon.ico">
-    
-</head>
-<body>
-    <div class="container">
-        <form class="form" id="login" method="post" action="{% url 'user_login' %}">
-            {% csrf_token %}
-            <h1 class="form__title">Login</h1>
-            <div class="form__message form__message--error"></div>
-            <div class="form__input-group">
-                <input type="text" class="form__input" autofocus placeholder="Username or email" name="username">
-                <div class="form__input-error-message"></div>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script
+           src="https://kit.fontawesome.com/64d58efce2.js"
+           crossorigin="anonymous"
+        ></script>
+        <link rel="stylesheet" href="{% static 'styles\styles.css' %}"/>
+        <title>Sign in & Sign up Form</title>
+    </head>
+        
+    <body>
+        <div class="container">
+           <div class="forms-container">
+                <div class="signin-signup">
+                    <form method="post" action="{% url 'user_login' %}" class="sign-in-form">
+                        {% csrf_token %}
+                        <img src="{% static 'img/logo.jpeg' %}" class="logo-image" alt="" />
+                        <!-- <h1 class="title">Eikarica</h1> -->
+                        <h2 class="title">Sign in</h2>
+                        <div class="input-field">
+                            <i class="fas fa-user"></i>
+                                <input type="text" placeholder="Username" name="username"/>
+                        </div>
+                        <div class="input-field">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" placeholder="Password" name="password"/>
+                        </div>
+                        <input class="btn solid" type="submit" value="Login" />
+                        <p class="social-text">Or Sign in with social platforms</p>
+                        <div class="social-media">
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-google"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </form>
+                    <form method="post" action="{% url 'become_vendor' %}" class="sign-up-form">
+                        {% csrf_token %}
+                        <img src="{% static 'img/logo.jpeg' %}" class="logoo-image" alt="" />
+                        <h2 class="title">Sign up</h2>
+                        <div class="input-field">
+                            <i class="fas fa-user"></i>
+                            <input type="text" placeholder="Username" name="username"/>
+                        </div>
+                        <div class="input-field">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" placeholder="Email" name="email"/>
+                        </div>
+                        <div class="input-field">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" placeholder="Password" name="password"/>
+                        </div>
+                        <input type="submit" class="btn" value="Sign up" />
+                        <p class="social-text">Sign Up as a Vendor ?
+                        <input type="checkbox" name="loginid" value="vendor" /></p>
+                        <p class="social-text">Or Sign up with social platforms</p>
+                        <div class="social-media">
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-google"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="form__input-group">
-                <input type="password" class="form__input" autofocus placeholder="Password" name="password">
-                <div class="form__input-error-message"></div>
+        
+            <div class="panels-container">
+                <div class="panel left-panel">
+                    <div class="content">
+                        <h3>New here ?</h3>
+                        <p>
+                            A few clicks is all it takes. A fresh approach to shopping.
+                        </p>
+                        <button class="btn transparent" id="sign-up-btn">Sign up</button>
+                    </div>
+                    <img src="{% static 'img/log.svg' %}" class="image" alt="" />
+                </div>
+                <div class="panel right-panel">
+                    <div class="content">
+                        <h3>One of us ?</h3>
+                        <p>
+                            A great place to be.Absolutely. Positively. Perfect.
+                        </p>
+                        <button class="btn transparent" id="sign-in-btn">Sign in</button>
+                    </div>
+                    <img src="{% static 'img/register.svg' %}" class="image" alt="" />
+                </div>
             </div>
-            <button class="form__button" type="submit">Continue</button>
-            <p class="form__text">
-                <a href="#" class="form__link">Forgot your password?</a>
-            </p>
-            <p class="form__text">
-                <a class="form__link" href="./" id="linkCreateAccount">Don't have an account? Create account</a>
-            </p>
-        </form>
-        <!-- <form class="form form--hidden" id="createAccount">
-            <h1 class="form__title">Create Account</h1>
-            <div class="form__message form__message--error"></div>
-            <div class="form__input-group">
-                <input type="text" id="signupUsername" class="form__input" autofocus placeholder="Username">
-                <div class="form__input-error-message"></div>
-            </div>
-            <div class="form__input-group">
-                <input type="text" class="form__input" autofocus placeholder="Email Address">
-                <div class="form__input-error-message"></div>
-            </div>
-            <div class="form__input-group">
-                <input type="password" class="form__input" autofocus placeholder="Password">
-                <div class="form__input-error-message"></div>
-            </div>
-            <div class="form__input-group">
-                <input type="password" class="form__input" autofocus placeholder="Confirm password">
-                <div class="form__input-error-message"></div>
-            </div>
-            <button class="form__button" type="submit">Continue</button>
-            <p class="form__text">
-                <a class="form__link" href="./" id="linkLogin">Already have an account? Sign in</a>
-            </p>
-        </form>  -->
-    </div>
-
-</body>
-
-
-        <!-- {{ form.as_ul }} -->
-
-       
-    <!-- </form> -->
-{% endblock %}
+        </div>
+        <script src="{% static 'scripts/app.js' %}"></script>
+    </body>
+</html>
+<!-- {% endblock %} -->
