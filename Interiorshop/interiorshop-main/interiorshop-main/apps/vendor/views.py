@@ -46,19 +46,18 @@ def user_login(request):
 def become_vendor(request):
     if request.method == 'POST':
         email = request.POST.get('email')
-        password1 = request.POST.get('password')
-        password2 = request.POST.get('confirm_password')
+        password = request.POST.get('password')
+        loginid = request.POST.get('loginid')
+        # password2 = request.POST.get('confirm_password')
         name = request.POST.get('username')
-        if password1 == password2:
-            raw_password = password1
-            user = User.objects.create_user(name, email, raw_password)
-            vendor = Vendor(name=name, email=email, password=raw_password, created_by=user)
+        if loginid == "vendor":
+            # raw_password = password1
+            user = User.objects.create_user(name, email, password)
+            vendor = Vendor(name=name, email=email, password=password, created_by=user)
             vendor.save()
             login(request, user)
             return redirect('add_product')
-        else:
-            return redirect('become_vendor')
-    return render(request, 'vendor/become_vendor.html', {})
+    return render(request, 'vendor/login.html', {})
 
 @login_required
 def vendor_admin(request):
