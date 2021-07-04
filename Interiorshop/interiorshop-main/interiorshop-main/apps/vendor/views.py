@@ -5,7 +5,7 @@ from django.utils.text import slugify
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
-from .models import Vendor
+from .models import Vendor,Customer
 from apps.product.models import Product, ProductImage
 from django.contrib.auth.models import User
 
@@ -17,6 +17,7 @@ def user_login(request):
         # First get the username and password supplied
         username = request.POST.get('username')
         password = request.POST.get('password')
+     
 
         # Django's built-in authentication function:
         user = authenticate(username=username, password=password)
@@ -55,8 +56,15 @@ def become_vendor(request):
             user = User.objects.create_user(name, email, password)
             vendor = Vendor(name=name, email=email, password=password, created_by=user)
             vendor.save()
-            login(request, user)
+           # login(request, user)
             return redirect('add_product')
+        else:
+            cus= User.objects.create_user(name, email, password)
+            customer = Customer(name=name, email=email, password=password, created_by=cus)
+            customer.save()
+            login(request,cus)
+            return redirect('vendors')
+
     return render(request, 'vendor/login.html', {})
 
 @login_required
