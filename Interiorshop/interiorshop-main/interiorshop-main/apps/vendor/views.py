@@ -10,6 +10,14 @@ from apps.product.models import Product, ProductImage
 from django.contrib.auth.models import User
 
 from .forms import ProductForm, ProductImageForm
+# from apps.product.models import Product
+
+# def frontpage(request):
+#     newest_products = Product.objects.all()[0:8]
+
+#     return render(request, 'core/frontpage.html', {'newest_products': newest_products})
+
+
 
 def user_login(request):
     
@@ -17,28 +25,47 @@ def user_login(request):
         # First get the username and password supplied
         username = request.POST.get('username')
         password = request.POST.get('password')
-     
+        loginid = request.POST.get('loginid')
 
         # Django's built-in authentication function:
         user = authenticate(username=username, password=password)
 
         # If we have a user
-        if user:
-            #Check it the account is active
-            if user.is_active:
-                # Log the user in.
-                login(request,user)
-                # Send the user back to some page.
-                # In this case their homepage.
-                return redirect('vendor_admin')
-                #return HttpResponseRedirect(reverse('core/frontpage.html'))
+        if loginid == "vendor":
+            if user:
+                #Check it the account is active
+                if user.is_active:
+                    # Log the user in.
+                    login(request,user)
+                    # Send the user back to some page.
+                    # In this case their homepage.
+                    return redirect('vendor_admin')
+                    #return HttpResponseRedirect(reverse('core/frontpage.html'))
+                else:
+                    # If account is not active:
+                    return HttpResponse("Your account is not active.")
             else:
-                # If account is not active:
-                return HttpResponse("Your account is not active.")
+                print("Someone tried to login and failed.")
+                print("They used username: {} and password: {}".format(username,password))
+                return HttpResponse("Invalid login details supplied.")
         else:
-            print("Someone tried to login and failed.")
-            print("They used username: {} and password: {}".format(username,password))
-            return HttpResponse("Invalid login details supplied.")
+            if user:
+                #Check it the account is active
+                if user.is_active:
+                    # Log the user in.
+                    login(request,user)
+                    # Send the user back to some page.
+                    # In this case their homepage.
+                    return redirect('vendors')
+                    #return HttpResponseRedirect(reverse('core/frontpage.html'))
+                else:
+                    # If account is not active:
+                    return HttpResponse("Your account is not active.")
+            else:
+                print("Someone tried to login and failed.")
+                print("They used username: {} and password: {}".format(username,password))
+                return HttpResponse("Invalid login details supplied.")
+
 
     else:
         #Nothing has been provided for username or password.
@@ -56,7 +83,7 @@ def become_vendor(request):
             user = User.objects.create_user(name, email, password)
             vendor = Vendor(name=name, email=email, password=password, created_by=user)
             vendor.save()
-           # login(request, user)
+            login(request, user)
             return redirect('add_product')
         else:
             cus= User.objects.create_user(name, email, password)

@@ -1,6 +1,6 @@
-<!-- {% extends 'core/base.html' %} -->
 
-{% block title %}Log in | {% endblock %}
+
+<!-- {% block title %}Log in | {% endblock %} -->
 
 {% load static %}
 
@@ -38,6 +38,8 @@
                             <input type="password" placeholder="Password" name="password"/>
                         </div>
                         <input class="btn solid" type="submit" value="Login" />
+                        <p class="social-text">Sign In as a Vendor ?
+                        <input type="checkbox" name="loginid" value="vendor" /></p>
                         <p class="social-text">Or Sign in with social platforms</p>
                         <div class="social-media">
                             <a href="#" class="social-icon">
